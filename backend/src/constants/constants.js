@@ -21,7 +21,7 @@ export const swaggerOptions = {
     },
     servers: [
       {
-        url: `http://localhost:${PORT}`,
+        url: 'https://fullstack-backend-n4x7.onrender.com',
       },
     ],
   },
