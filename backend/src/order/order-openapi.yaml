@@ -1,0 +1,383 @@
+tags:
+  - name: order
+    description: Access to webshop orders
+
+paths:
+  /api/order/admin/{userId}:
+    get:
+      tags:
+        - order
+      summary: Get all orders
+      description: Get all orders from the webshop
+      operationId: getAllorders
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: pageLimit
+          in: query
+          description: Number of orders to return per page
+          schema:
+            type: integer
+            minimum: 1
+            default: 4
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: order
+          in: query
+          description: Sort order for the orders (ASC or DESC)
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: search
+          in: query
+          description: Search keyword to filter the orders
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "SdfQk2E3Bc_t_wQ8tKUXRGPx"
+                        user_id:
+                          type: string
+                          example: "WLxR-xEephVY0nS3yQJR"
+                        created:
+                          type: string
+                          example: "2023-07-13T14:06:40.305Z"
+                        is_done:
+                          type: boolean
+                          example: false
+                        delivery_date:
+                          type: string
+                          example: "2023-07-10T22:00:00.000Z"
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        first_name:
+                          type: string
+                          example: "Alice"
+                        last_name:
+                          type: string
+                          example: "Alisson"
+                        email:
+                          type: string
+                          example: "alice@example.com"
+                        total_price:
+                          type: null
+                          example: 500
+                  totalPages:
+                    type: integer
+                    example: 3
+        '400':
+          description: Invalid request
+      security:
+        - bearerAuth: []
+  /api/order/{userId}/{orderId}:
+    get:
+      tags:
+        - order
+      summary: Get an order by ID 
+      description: Get an order by ID
+      operationId: getOrderById
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "7vksF5Ne2vmDijvrCc1Q"
+                  user_id:
+                    type: string
+                    example: "li0qDwQHDz0uQkMgXbA3vT51"
+                  created:
+                    type: string
+                    example: "2023-07-10T11:34:00.000Z"
+                  is_done:
+                    type: boolean
+                    example: false
+                  delivery_date:
+                    type: string
+                    example: "2023-07-10T22:00:00.000Z"
+                  is_deleted:
+                    type: boolean
+                    example: false
+                  first_name:
+                    type: string
+                    example: "Alice"
+                  last_name:
+                    type: string
+                    example: "Alisson"
+                  email:
+                    type: string
+                    example: "alice@example.com"
+                  productslist:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        product:
+                          type: string
+                          example: "Portable Charger"
+                        amount:
+                          type: integer
+                          example: 1
+                        sub_total:
+                          type: integer
+                          example: 79
+                  total_price:
+                    type: string
+                    example: "386"
+        '400':
+          description: Invalid request
+      security:
+        - bearerAuth: []
+  /api/order{userId}:
+    get:
+      tags:
+        - order
+      summary: Get orders for a user
+      description: Get orders for a user by the user's ID
+      operationId: getOrdersForUser
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user to retrieve the order for
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "SdfQk2E3Bc_t_wQ8tKUXRGPx"
+                        user_id:
+                          type: string
+                          example: "WLxR-xEephVY0nS3yQJR"
+                        created:
+                          type: string
+                          example: "2023-07-13T14:06:40.305Z"
+                        is_done:
+                          type: boolean
+                          example: false
+                        delivery_date:
+                          type: string
+                          example: "2023-07-10T22:00:00.000Z"
+                        is_deleted:
+                          type: boolean
+                          example: false
+                        first_name:
+                          type: string
+                          example: "Alice"
+                        last_name:
+                          type: string
+                          example: "Alisson"
+                        email:
+                          type: string
+                          example: "alice@example.com"
+                        total_price:
+                          type: null
+                          example: 500
+                  totalPages:
+                    type: integer
+                    example: 3
+        '400':
+          description: Invalid input(s)
+        '404':
+          description: Order not found
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - order
+      summary: Add a new order to the store
+      description: Add a new order to the store
+      operationId: createOrder
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new order in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                deliveryDate:
+                  type: string
+                  example: "2023-06-07 14:37:00"
+              required:
+                - deliveryDate
+      responses:
+        '201':
+          description: order created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 45EkYUzdjaXLesXuNySB
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+  /api/order/admin/complete/{userId}/{orderId}:
+    patch:
+      tags:
+        - order
+      summary: Complete an order
+      description: Set an order done
+      operationId: setOrderDone
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the admin user
+          required: true
+          schema:
+            type: string
+        - name: orderId
+          in: path
+          description: ID of the order to set done
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+        '400':
+          description: Invalid input(s)
+        '404':
+          description: Order not found
+      security:
+        - bearerAuth: []
+  /api/admin/delete/{orderId}:
+    delete:
+      tags:
+        - order
+      summary: Delete an order
+      description: Delete an order by its ID
+      operationId: deleteorder
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: orderId
+          in: path
+          description: ID of the order to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Order deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Order not found
+      security:
+        - bearerAuth: []
+
+components:
+  schemas:
+    Order:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "aCRDDA1Bl8w6x9BQlDGQ"
+        userId:
+          type: string
+          example: "4txpl33304e3pSeDsU9U"
+        created:
+          type: string
+          example: "2023-07-10 13:40:52.893237"
+        isDone:
+          type: string
+          example: "FALSE"
+        delivery_date:
+          type: string
+          example: "2023-06-07 14:37:00"
+        isDeleted:
+          type: string
+          example: "FALSE"
+      required:
+        - name

@@ -1,0 +1,300 @@
+tags:
+  - name: product
+    description: Access to webshop products
+
+paths:
+  /api/product/{userId}:
+    post:
+      tags:
+        - product
+      summary: Add a new product to the store
+      description: Add a new product to the store
+      operationId: createProduct
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new product in the store
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                productPicture:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                quantity:
+                  type: integer
+                product_url:
+                  type: string
+                  format: uri
+                categoryIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Product created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+  /api/product:
+    get:
+      tags:
+        - product
+      summary: Get all products
+      description: Get all products from the webshop
+      operationId: getAllProducts
+      parameters:
+        - name: pageLimit
+          in: query
+          description: Number of products to return per page
+          schema:
+            type: integer
+            minimum: 1
+            default: 4
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: sort
+          in: query
+          description: Sort field for ordering the products (e.g., name, price)
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Sort order for the products (ASC or DESC)
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: search
+          in: query
+          description: Search keyword to filter the products
+          schema:
+            type: string
+        - name: minPrice
+          in: query
+          description: Minimum price value to filter the products
+          schema:
+            type: number
+            minimum: 0
+            default: 1
+        - name: maxPrice
+          in: query
+          description: Maximum price value to filter the products
+          schema:
+            type: number
+            minimum: 0
+            default: 1000000
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalPages:
+                    type: integer
+        '400':
+          description: Invalid request
+  /api/product/{productId}:
+    get:
+      tags:
+        - product
+      summary: Get a product by ID
+      description: Get a product by its ID
+      operationId: getProductById
+      parameters:
+        - name: productId
+          in: path
+          description: ID of the product to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input(s)
+        '404':
+          description: Product not found
+  /api/product/{userId}/{productId}:
+    patch:
+      tags:
+        - product
+      summary: Update a product
+      description: Update a product by its ID
+      operationId: updateProduct
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: ID of the product to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing product in the store
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                productPicture:
+                  type: string
+                  format: binary
+                name:
+                  type: string
+                description:
+                  type: string
+                price:
+                  type: number
+                quantity:
+                  type: integer
+                product_url:
+                  type: string
+                  format: uri
+                categoryIds:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: Product not found
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - product
+      summary: Delete a product
+      description: Delete a product by its ID
+      operationId: deleteProduct
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: ID of the product to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Product deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Product not found
+      security:
+        - bearerAuth: []
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "13"
+        name:
+          type: string
+          example: "Bluetooth Earphones"
+        description:
+          type: string
+          example: "Lightweight Bluetooth earphones with magnetic earbuds and up to 10 hours of playtime."
+        price:
+          type: number
+          example: 500
+        quantity:
+          type: integer
+          example: 20
+        product_url:
+          type: string
+          format: uri
+          example: "https://res.cloudinary.com/asd0qwerty/image/upload/v123456789/47150123742479e7b0dfa2f87bee52f2.jpg"
+        created:
+          type: string
+          format: date-time
+          example: "2023-06-07T07:57:00.000Z"
+        categories:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - price
+        - quantity

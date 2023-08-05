@@ -1,0 +1,140 @@
+tags:
+  - name: cart
+    description: Access to webshop carts
+
+paths:
+  /api/cart/{userId}:
+    get:
+      tags:
+        - cart
+      summary: Get cart for a user by ID
+      description: Get cart for a user by ID
+      operationId: getCartForUser
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+
+      security:
+        - bearerAuth: []
+    post:
+      tags:
+        - cart
+      summary: Create a new cart
+      description: Add products to the cart
+      operationId: addtocart
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: List products to be added to the cart
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                productId:
+                  type: string
+                  example: "gXysCwSvitO5AjECsK6c"
+                amount:
+                  type: string
+                  example: "2"
+              required:
+                - prodcuctId
+                - amount
+      responses:
+        '201':
+          description: Added to cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - cart
+      summary: Delete a cart
+      description: Delete from a cart by its user ID
+      operationId: deletefromcart
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted from cartsuccessfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Cart not found
+      security:
+        - bearerAuth: []
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        userId:
+          type: string
+          example: "WLxR-xEephVY0nS3yQJR"
+        productId:
+          type: string
+          example: "gXysCwSvitO5AjECsK6c"
+        amount:
+          type: string
+          example: "2"
+      required:
+        - userId
+        - prodcuctId
+        - amount

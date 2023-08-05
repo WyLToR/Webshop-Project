@@ -1,0 +1,31 @@
+.card {
+    border: none;
+  }
+
+.text-center {
+    width: 15rem;
+}
+
+.card-title {
+    height: 50px;
+}
+
+.recommended .card-title {
+    height: fit-content;
+}
+
+.card-img {
+    height: 10rem;
+    object-fit: scale-down;
+    transition: transform 0.4s ease;
+}
+
+.card-img:hover {
+    transform: scale(1.2);
+}
+
+.card .btn {
+    border-width: 2px;
+    border-radius: 1rem;
+    font-weight: 500;
+}

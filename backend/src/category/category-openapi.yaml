@@ -1,0 +1,267 @@
+tags:
+  - name: category
+    description: Access to webshop categories
+
+paths:
+  /api/category/{userId}:
+    post:
+      tags:
+        - category
+      summary: Add a new category to the store
+      description: Add a new category to the store
+      operationId: createcategory
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Create a new category in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                  example: "Electronics"
+              required:
+                - category
+
+      responses:
+        '201':
+          description: category created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+      security:
+        - bearerAuth: []
+    get:
+      tags:
+        - category
+      summary: Get all categories
+      description: Get all categories from the webshop
+      operationId: getAllcategories
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: pageLimit
+          in: query
+          description: Number of categories to return per page
+          schema:
+            type: integer
+            minimum: 1
+            default: 4
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: sort
+          in: query
+          description: Sort field for ordering the categories (e.g., name, created)
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Sort order for the categories (ASC or DESC)
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: search
+          in: query
+          description: Search keyword to filter the categories
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+                  totalPages:
+                    type: integer
+        '400':
+          description: Invalid request
+      security:
+        - bearerAuth: []
+  /api/category/{userId}/{categoryId}:
+    get:
+      tags:
+        - category
+      summary: Get a category by ID
+      description: Get a category by its ID
+      operationId: getcategoryById
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to retrieve
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid input(s)
+        '404':
+          description: Category not found
+      security:
+        - bearerAuth: []
+    patch:
+      tags:
+        - category
+      summary: Update a category
+      description: Update a category by its ID
+      operationId: updatecategory
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing category in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: string
+                  example: "Electronics"
+              required:
+                - category
+      responses:
+        '200':
+          description: Category updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: Category not found
+      security:
+        - bearerAuth: []
+    delete:
+      tags:
+        - category
+      summary: Delete a category
+      description: Delete a category by its ID
+      operationId: deletecategory
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+        - name: categoryId
+          in: path
+          description: ID of the category to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Category deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: Category not found
+      security:
+        - bearerAuth: []
+
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "bRs49LeAI6BOTHl2H60GQxTG"
+        name:
+          type: string
+          example: "Electronics"
+      required:
+        - name
+      

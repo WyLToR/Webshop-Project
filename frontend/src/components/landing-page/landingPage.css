@@ -1,0 +1,13 @@
+.landing-page .carousel-control-next, .carousel-control-prev {
+    width: auto;
+}
+
+.img-hover:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.img-hover {
+    transform: scale(1);
+    transition: 0.5s;
+}

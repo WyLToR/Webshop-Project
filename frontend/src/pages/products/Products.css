@@ -1,0 +1,9 @@
+.filter-aside {
+    height: fit-content;
+    border: 2px solid var(--bs-secondary-bg-subtle);
+    border-radius: 0.25rem;
+}
+
+.category-badge {
+    cursor: pointer;
+}

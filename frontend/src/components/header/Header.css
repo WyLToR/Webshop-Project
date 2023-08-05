@@ -1,0 +1,26 @@
+.important-banner {
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+.nav-container {
+  position: relative;
+}
+.profile-cart-icons {
+  position: absolute;
+  top: 1.2rem;
+  right: 1rem;
+}
+
+.navbar-toggler,
+.navbar-toggler:focus {
+  box-shadow: none;
+  border: none
+}
+
+@media screen and (max-width: 992px) {
+  .profile-cart-icons {
+    right: 4.5rem;
+  }
+}

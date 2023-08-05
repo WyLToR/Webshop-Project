@@ -1,0 +1,93 @@
+tags:
+  - name: auth
+    description: Access to webshop auth
+
+paths:
+  /auth/register:
+    post:
+      tags:
+        - auth
+      summary: Register a user
+      description: Register a user
+      operationId: register
+      requestBody:
+        description: User data to register with
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "example@email.com"
+                password:
+                  type: string
+                  example: "VeryStorngPassword1234!"
+                firstName:
+                  type: string
+                  example: "Alice"
+                lastName:
+                  type: string
+                  example: "Alisson"
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+      responses:
+        '200':
+          description: Registration successful
+        '400':
+          description: Invalid request
+        '500':
+          description: Server Error - Already registered
+  /auth/login:
+    post:
+      tags:
+        - auth
+      summary: Login a user
+      description: Login a user
+      operationId: login
+      requestBody:
+        description: Login details
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "example@email.com"
+                password:
+                  type: string
+                  example: "VeryStorngPassword1234!"
+              required:
+                - email
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IlVKS0FObUJ6MVpGdXcxc2pmMzAzN05IYyIsImVtYWlsIjoidGVzenRAdGVzenQuaHUiLCJjcmVhdGVkIjoiMjAyMy0wNy0xM1QwODo0NDo0OS44OTNaIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTY4OTIzODk3MX0.4daBtl69Dl3CJ4Y7yDqyMUFnZLU9xaqHHpc6a1ZpwYE
+        '403':
+          description: Invalid request
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      name: bearerAuth
+      in: header
+      scheme: bearer
+      bearerFromat: JWT
+
+security:
+  - bearerAuth: [] 

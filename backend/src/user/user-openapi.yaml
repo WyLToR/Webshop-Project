@@ -1,0 +1,343 @@
+tags:
+  - name: user
+    description: Access to webshop users
+
+paths:
+  /api/user/admin/{userId}:
+    get:
+      tags:
+        - user
+      summary: Get all users
+      description: Get all users from the webshop
+      operationId: getAllusers
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: pageLimit
+          in: query
+          description: Number of users to return per page
+          schema:
+            type: integer
+            minimum: 1
+            default: 4
+        - name: page
+          in: query
+          description: Page number for pagination
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: sort
+          in: query
+          description: Sort field for ordering the users (e.g., name, price)
+          schema:
+            type: string
+        - name: order
+          in: query
+          description: Sort order for the users (ASC or DESC)
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+        - name: search
+          in: query
+          description: Search keyword to filter the users
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Userbasedata'
+                  totalPages:
+                    type: integer
+        '400':
+          description: Invalid request
+      security:
+        - bearerAuth: []
+  /api/user/{userId}:
+    get:
+      tags:
+        - user
+      summary: Get user by ID
+      description: Get a user by ID from the webshop
+      operationId: getUserById
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Userbasedata'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /api/user/basedata/{userId}:
+    patch:
+      tags:
+        - user
+      summary: Update a user's base data
+      description: Update a user's base data by their ID
+      operationId: updateUserBaseData
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing user's base data in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Userbasedata'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Userbasedata'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /api/user/orderdata/{userId}:
+    patch:
+      tags:
+        - user
+      summary: Update a user's order data
+      description: Update a user's order data by their ID
+      operationId: updateUserOrderData
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing user's order data in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Userorderdata'
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Userorderdata'
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /api/user/admin/permission/{userId}:
+    patch:
+      tags:
+        - user
+      summary: Update a user's role
+      description: Update a user's role
+      operationId: updateUserRole
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User updated
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /api/user/active/{userId}:
+    delete:
+      tags:
+        - user
+      summary: Deactivate a user by themselves
+      description: Deactivate a user by their ID by themselves
+      operationId: deleteUserByThemselves
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user to deactivate
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+  /api/user/admin/{userId}/{deletingUserId}:
+    delete:
+      tags:
+        - user
+      summary: Deactivate a user as an admin
+      description: Deactivate a user by their ID as an admin
+      operationId: deleteUserasAdmin
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the admin to verify
+          required: true
+          schema:
+            type: string
+        - name: deletingUserId
+          in: path
+          description: ID of the user to deactivate
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: User deleted successfully
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
+
+components:
+  schemas:
+    Userbasedata:
+      type: object
+      properties:
+        email:
+          type: string
+          example: "valaki@valaki.hu"
+        password:
+          type: string
+          example: "VeryStrongPassword1234!"
+        firstName:
+          type: string
+          example: "Your"
+        lastName:
+          type: string
+          example: "Name"
+      required:
+        - email
+        - password
+        - firstName
+        - lastName
+    Userorderdata:
+      type: object
+      properties:
+        postcode:
+          type: string
+          example: "1234"
+        state:
+          type: string
+          example: "Pest"
+        city:
+          type: string
+          example: "Budapest"
+        street:
+          type: string
+          example: "Petőfi utca"
+        houseNumber:
+          type: string
+          example: "1"
+      required:
+        - postcode
+        - state
+        - city
+        - street
+        - houseNumber
+
+securitySchemes:
+    bearerAuth:
+      type: http
+      in: header
+      name: Authorization

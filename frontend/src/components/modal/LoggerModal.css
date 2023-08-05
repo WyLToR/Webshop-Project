@@ -1,0 +1,62 @@
+.logger-modal-header{
+    border: none;
+}
+.logger-modal-body>form{
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.logger-modal-body>form>div{
+   display: grid;
+   grid-template-columns: 2rem 1fr;
+   align-items: center;
+}
+.invalid-feedback{
+    grid-column: 2;
+    font-size: 1em;
+    justify-self: stretch;
+}
+.logger-modal-body input{
+    padding: 0.75rem;
+    font-size: large;
+    border-radius: 2rem;
+    transition: ease-in-out 250ms;
+}
+.logger-modal-body input:hover{
+    transition: ease-in-out 250ms;
+    border: 1px solid black;
+}
+.logger-modal-body>form button{
+    border-radius: 1rem;
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}
+.logger-modal-body>form button:hover{
+    transition: ease-in-out 200ms;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+}
+.logger-modal-body-option{
+    display: flex;
+    justify-content: space-between;
+}
+.logger-button{
+    background-color: white;
+    color: black;
+    border: none;
+    width: 100%;
+}
+.isOn{
+    background-color: black;
+    color: white;
+}
+.message{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.message span{
+    font-size: 1.5rem;
+}
