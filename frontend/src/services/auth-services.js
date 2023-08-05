@@ -1,8 +1,9 @@
 import jwtDecode from 'jwt-decode';
+import { API_URL } from '../constants/backendConfig';
 
 class AuthService {
   static async login(loginData) {
-    const response = await fetch('http://localhost:8080/auth/login', {
+    const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',

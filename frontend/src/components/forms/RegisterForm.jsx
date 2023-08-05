@@ -5,12 +5,13 @@ import { AiOutlineMail } from 'react-icons/ai';
 import { RiLockPasswordFill } from 'react-icons/ri';
 import { BsFillPersonBadgeFill } from 'react-icons/bs';
 import registerSchema from '../../schemas/registerSchema';
+import { API_URL } from '../../constants/backendConfig';
 
 export default function RegisterForm() {
   const [registerResponse, setRegisterResponse] = useState(null);
   const register = async (data) => {
     try {
-      const response = await fetch('http://localhost:8080/auth/register', {
+      const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
