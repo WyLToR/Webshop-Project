@@ -14,7 +14,7 @@ import '../../components/landing-page/landingPage.css';
 import LoadingComponent from '../../components/LoadingComponent';
 
 function LandingPage() {
-  const { data, isFetching } = useGetProducts('pageLimit=30');
+  const { data, isFetching } = useGetProducts('pageLimit=40');
   const { auth } = useContext(AuthContext);
   return (
     isFetching
