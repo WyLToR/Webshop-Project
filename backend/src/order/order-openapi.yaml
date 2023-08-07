@@ -166,7 +166,7 @@ paths:
           description: Invalid request
       security:
         - bearerAuth: []
-  /api/order{userId}:
+  /api/order/{userId}:
     get:
       tags:
         - order

@@ -80,6 +80,44 @@ paths:
         '403':
           description: Invalid request
 
+  /auth/activate/{userId}:
+    post:
+      tags:
+        - auth
+      summary: Activate a user by email
+      description: Activate a user by email confirmation
+      operationId: activate
+      requestBody:
+        description: User email to send activation link
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "example@email.com"
+      responses:
+        '200':
+          description: Activation email sent
+        '403':
+          description: Invalid request
+
+  /auth/resend:
+    post:
+      tags:
+        - auth
+      summary: Resend activation email for a user
+      description: Resend activation email for a user
+      operationId: resendActivation
+      responses:
+        '200':
+          description: Activation email sent
+        '403':
+          description: Invalid request
+
+
 components:
   securitySchemes:
     bearerAuth:

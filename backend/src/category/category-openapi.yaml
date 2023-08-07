@@ -37,7 +37,6 @@ paths:
                   example: "Electronics"
               required:
                 - category
-
       responses:
         '201':
           description: category created
@@ -121,6 +120,29 @@ paths:
           description: Invalid request
       security:
         - bearerAuth: []
+  /api/category:
+    get:
+      tags:
+        - category
+      summary: Get all categories for filtering
+      description: Get all categories from the webshop for filtering
+      operationId: getAllcategoriesForFiltering
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  categories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Category'
+                  totalPages:
+                    type: integer
+        '400':
+          description: Invalid request
   /api/category/{userId}/{categoryId}:
     get:
       tags:

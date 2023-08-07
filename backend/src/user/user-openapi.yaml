@@ -147,6 +147,55 @@ paths:
           description: User not found
       security:
         - bearerAuth: []
+  /api/user/password/{userId}:
+    post:
+      tags:
+        - user
+      summary: Update a user's password
+      description: Update a user's password
+      operationId: updateUserPassword
+      parameters:
+        - name: authorization
+          in: header
+          description: Access token for authentication
+          required: true
+          schema:
+            type: string
+            example: Bearer <JWT token>
+        - name: userId
+          in: path
+          description: ID of the user sending the request
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Update an existing user's base data in the store
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "example@email.com"
+                oldPassword:
+                  type: string
+                  example: "password_old1234!"
+                newPassword:
+                  type: string
+                  example: "password_new1234!"
+      responses:
+        '200':
+          description: User updated
+        '400':
+          description: Invalid input(s)
+        '401':
+          description: Unauthorized
+        '404':
+          description: User not found
+      security:
+        - bearerAuth: []
   /api/user/orderdata/{userId}:
     patch:
       tags:

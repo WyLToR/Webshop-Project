@@ -133,6 +133,24 @@ paths:
                     type: integer
         '400':
           description: Invalid request
+  /api/product/infinite:
+    get:
+      tags:
+        - product
+      summary: Get all products in an array
+      description: Get all products from the webshop in an array format
+      operationId: getAllProductsInArray
+      responses:
+        '200':
+          description: Successful request
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        '400':
+          description: Invalid request
   /api/product/{productId}:
     get:
       tags:
