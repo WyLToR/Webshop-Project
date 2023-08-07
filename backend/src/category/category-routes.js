@@ -11,6 +11,7 @@ const router = Router();
 router.post('/:userId', authorize, veryfyUser, verifyAdmin, validate(categoriesSchema), categoriesController.createCategory);
 
 router.get('/:userId', authorize, veryfyUser, verifyAdmin, categoriesController.getAllCategories);
+
 router.get('/', categoriesController.getAllCategories);
 
 router.get('/:userId/:categoryId', authorize, veryfyUser, verifyAdmin, categoriesController.getCategoryById);

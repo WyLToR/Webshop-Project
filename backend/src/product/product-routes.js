@@ -12,6 +12,7 @@ const router = Router();
 router.post('/:userId', authorize, veryfyUser, verifyAdmin, uploadMiddleware.single('productPicture'), validate(productsSchema), productController.createProduct);
 
 router.get('/', productController.getAllProducts);
+
 router.get('/infinite', productController.getAllProductsInfinite);
 
 router.get('/:productId', productController.getProductById);
