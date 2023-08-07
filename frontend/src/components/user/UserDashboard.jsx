@@ -11,7 +11,7 @@ function UserDashboard({ auth, shippingAddress }) {
     <Stack>
       <h3>Account Information</h3>
       <hr />
-      <div className="d-flex justify-content-between account-data-container">
+      <div className="d-flex justify-content-between account-data-container" style={{ gap: '2em' }}>
         <div className="d-flex flex-column datas">
           <p style={{ fontWeight: 'bold' }}>User Information</p>
           <p
